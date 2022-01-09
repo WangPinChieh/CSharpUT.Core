@@ -30,7 +30,7 @@ namespace HolidayTests
 
     }
 
-    public class FakeHoliday : Holiday
+    internal class FakeHoliday : Holiday
     {
         private DateTime _today;
 
