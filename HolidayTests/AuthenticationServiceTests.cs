@@ -27,6 +27,21 @@ namespace HolidayTests
             ShouldBeValid("joey", "91000000");
         }
 
+        [Test()]
+        public void is_invalid()
+        {
+            GivenPassword("joey", "91");
+            GivenToken("000000");
+            ShouldBeInvalid("joey", "wrong password");
+        }
+
+        private void ShouldBeInvalid(string account, string password)
+        {
+            var actual = _target.IsValid(account, password);
+
+            Assert.IsFalse(actual);
+        }
+
         private void ShouldBeValid(string account, string password)
         {
             var actual = _target.IsValid(account, password);
