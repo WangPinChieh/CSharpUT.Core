@@ -6,10 +6,12 @@ namespace Lib
     {
         public string SayHello()
         {
-            if (GetToday().Month == 12 && GetToday().Day == 25)
+            var today = GetToday();
+            if (today.Month == 12 && (today.Day == 25 || today.Day == 24))
             {
                 return "Merry Xmas";
             }
+
             return "Today is not Xmas";
         }
 

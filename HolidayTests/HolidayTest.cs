@@ -29,6 +29,13 @@ namespace HolidayTests
             ShouldReturn("Merry Xmas");
         }
 
+        [Test]
+        public void today_is_xmas_when_Dec_24()
+        {
+            GivenToday(12, 24);
+            ShouldReturn("Merry Xmas");
+        }
+
         private void ShouldReturn(string expected)
         {
             Assert.AreEqual(expected, _holiday.SayHello());
