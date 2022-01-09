@@ -1,4 +1,5 @@
 using Lib;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace HolidayTests
@@ -9,13 +10,14 @@ namespace HolidayTests
         [Test()]
         public void is_valid()
         {
-            var profile = new MockProfile();
-            var token = new MockToken();
+            var profile = Substitute.For<IProfile>();
+            profile.GetPassword("joey").Returns("91");
+            var token = Substitute.For<IToken>();
+            token.GetRandom("").ReturnsForAnyArgs("000000");
             var target = new AuthenticationService(profile, token);
 
             var actual = target.IsValid("joey", "91000000");
 
-            //always failed
             Assert.IsTrue(actual);
         }
     }
