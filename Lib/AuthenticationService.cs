@@ -7,15 +7,18 @@ namespace Lib
     {
         private IProfile _profileDao;
         private IToken _rsaToken;
+        private INotification _notification;
 
-        public AuthenticationService(IProfile profileDao, IToken rsaToken)
+        public AuthenticationService(IProfile profileDao, IToken rsaToken, INotification notification)
         {
             _profileDao = profileDao;
             _rsaToken = rsaToken;
+            _notification = notification;
         }
 
-        public AuthenticationService()
+        public AuthenticationService(INotification notification)
         {
+            _notification = notification;
             _profileDao = new ProfileDao();
             _rsaToken = new RsaTokenDao();
         }
@@ -38,9 +41,15 @@ namespace Lib
             }
             else
             {
+                _notification.Send($"Account:{account} tried to login failed");
                 return false;
             }
         }
+    }
+
+    public interface INotification
+    {
+        void Send(string message);
     }
 
     public interface IProfile
