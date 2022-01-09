@@ -7,49 +7,37 @@ namespace HolidayTests
     [TestFixture]
     public class HolidayTest
     {
-        private FakeHoliday _holiday;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _holiday = new FakeHoliday();
-        }
-
         [Test]
         public void today_is_not_xmas()
         {
-            GivenToday(new DateTime(2022, 1, 9));
-            ShouldReturn("Today is not Xmas");
+            var holiday = new FakeHoliday
+            {
+                Today = new DateTime(2022, 1, 9)
+            };
+            Assert.AreEqual("Today is not Xmas", holiday.SayHello());
         }
 
 
         [Test]
         public void today_is_xmas()
         {
-            GivenToday(new DateTime(2022, 12, 25));
-            ShouldReturn("Merry Xmas");
+            var holiday = new FakeHoliday
+            {
+                Today = new DateTime(2022, 12, 25)
+            };
+            Assert.AreEqual("Merry Xmas", holiday.SayHello());
         }
 
-        private void ShouldReturn(string expected)
-        {
-            Assert.AreEqual(expected, _holiday.SayHello());
-        }
-
-        private void GivenToday(DateTime today)
-        {
-            _holiday.GivenToday(today);
-        }
     }
 
     public class FakeHoliday : Holiday
     {
         private DateTime _today;
 
-        public void GivenToday(DateTime today)
+        public DateTime Today
         {
-            _today = today;
+            set => _today = value;
         }
-
         protected override DateTime GetToday()
         {
             return _today;
