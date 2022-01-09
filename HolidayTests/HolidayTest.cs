@@ -7,27 +7,32 @@ namespace HolidayTests
     [TestFixture]
     public class HolidayTest
     {
+        private readonly FakeHoliday _holiday = new FakeHoliday();
+
         [Test]
         public void today_is_not_xmas()
         {
-            var holiday = new FakeHoliday
-            {
-                Today = new DateTime(2022, 1, 9)
-            };
-            Assert.AreEqual("Today is not Xmas", holiday.SayHello());
+            GivenToday(new DateTime(2022, 1, 9));
+            ShouldReturn("Today is not Xmas");
         }
+
 
 
         [Test]
         public void today_is_xmas()
         {
-            var holiday = new FakeHoliday
-            {
-                Today = new DateTime(2022, 12, 25)
-            };
-            Assert.AreEqual("Merry Xmas", holiday.SayHello());
+            GivenToday(new DateTime(2022, 12, 25));
+            ShouldReturn("Merry Xmas");
         }
 
+        private void GivenToday(DateTime date)
+        {
+            _holiday.Today = date;
+        }
+        private void ShouldReturn(string expected)
+        {
+            Assert.AreEqual(expected, _holiday.SayHello());
+        }
     }
 
     internal class FakeHoliday : Holiday
@@ -38,6 +43,7 @@ namespace HolidayTests
         {
             set => _today = value;
         }
+
         protected override DateTime GetToday()
         {
             return _today;
